@@ -36,13 +36,18 @@ async function createRequest(requestOptions){
 		}
 	}
 
-	let data = await fetch(baseURL+requestOptions.path,{
+	let options = {
 		headers: {
         	'Authorization': `bearer ${Command.token}`
 		},
-		method: requestOptions.method,
-        json: requestOptions.json ? requestOptions.json : true
-	}).then(res => res.json()).catch(e => console.error(e));
+		method: requestOptions.method
+	};
+
+	if(requestOptions.json){
+		options.body = JSON.stringify(requestOptions.json)
+	}
+
+	let data = await fetch(baseURL+requestOptions.path,options).then(res => res.json()).catch(e => console.error(e));
 	
 
 	if(Command.debug){
@@ -101,7 +106,7 @@ async function start(){
 					path: path
 				});
 
-				console.log(`[${colors.green("Resource")}][${colors.gray(Command.namespace)}] ${Command.name}`);
+				console.log(`[${colors.green("Resource")}][${colors.gray(Command.namespace)}][${Command.name}] Updating...`);
 
 				if(requestData?.containers && requestData.containers.length > 0){
 					if(Command.deploy || Command.deploy2){
@@ -111,7 +116,7 @@ async function start(){
 							}
 						}else if(Command.deploy2){
 							if(!requestData.containers[0].env){
-								requestData.containers[0].env = {};
+								requestData.containers[0].env = [];
 							}
 						}
 						
@@ -123,8 +128,19 @@ async function start(){
 							requestData.containers[0].environment.deployment = newDate;
 							//console.log(requestData.containers[0].environment);
 						}else if(Command.deploy2){
-							originalDate = requestData.containers[0].env.deployment ? requestData.containers[0].env.deployment : "";
-							requestData.containers[0].env.deployment = newDate;
+							originalDate = requestData.containers[0].env.find(env => env.name === "deployment");
+							if(originalDate){
+								originalDate.value = newDate;
+								requestData.containers[0].env = requestData.containers[0].env.filter(env => env.name != "deployment");
+								requestData.containers[0].env.push(originalDate);
+							}else{
+								let env = {
+									name: "deployment",
+									type: "/v3/project/schemas/envVar",
+									value: newDate
+								};
+								requestData.containers[0].env.push(env);
+							}
 							//console.log(requestData.containers[0].env);
 						}
 		
@@ -135,8 +151,9 @@ async function start(){
 							json: requestData
 						});
 
-						if(responseData){
-							console.log(`Updated Deployment value from ${originalDate} to ${newDate}`);
+						if(responseData?.name){
+							console.log(`[${colors.green("Resource")}][${colors.gray(Command.namespace)}][${responseData?.name}] Updated Deployment value from ${originalDate} to ${newDate}`);
+							//console.log(responseData);
 						}
 					}
 				}
