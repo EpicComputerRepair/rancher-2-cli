@@ -1,6 +1,6 @@
 'use strict';
 
-const commandLineUsage = require('command-line-usage');
+import commandLineUsage from 'command-line-usage'
 
 const sections = [
   {
@@ -66,4 +66,4 @@ const sections = [
   }
 ];
 
-module.exports = commandLineUsage(sections);
+export default commandLineUsage(sections);

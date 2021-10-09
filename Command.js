@@ -1,7 +1,7 @@
 'use strict';
-                               
-const CommandHelp = require('./Help');
-const commandLineArgs = require('command-line-args')
+
+import CommandHelp from './Help.js'
+import commandLineArgs from 'command-line-args'
 
 const optionDefinitions = [    
   { name: 'token', alias: 't', type: String },
@@ -25,4 +25,4 @@ if(OPTIONS.help){
         console.log(CommandHelp);       
 }
 
-module.exports = OPTIONS;
+export default OPTIONS;

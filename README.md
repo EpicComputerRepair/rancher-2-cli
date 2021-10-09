@@ -1,4 +1,4 @@
-# rancher-2-cli - v0.1.1
+# rancher-2-cli - v0.2.0
 
 Rancher Command Line Client
 
