@@ -103,15 +103,15 @@ async function start(){
 
 				console.log(`[${colors.green("Resource")}][${colors.gray(Command.namespace)}] ${Command.name}`);
 
-				if(requestData?.containers && body.containers.length > 0){
+				if(requestData?.containers && requestData.containers.length > 0){
 					if(Command.deploy || Command.deploy2){
 						if(Command.deploy){
-							if(!body.containers[0].environment){
-								body.containers[0].environment = {};
+							if(!requestData.containers[0].environment){
+								requestData.containers[0].environment = {};
 							}
 						}else if(Command.deploy2){
-							if(!body.containers[0].env){
-								body.containers[0].env = {};
+							if(!requestData.containers[0].env){
+								requestData.containers[0].env = {};
 							}
 						}
 						
@@ -119,20 +119,20 @@ async function start(){
 						let newDate = new Date().toString();
 						let originalDate = "";
 						if(Command.deploy){
-							originalDate = body.containers[0].environment.deployment ? body.containers[0].environment.deployment : "";
-							body.containers[0].environment.deployment = newDate;
-													//console.log(body.containers[0].environment);
+							originalDate = requestData.containers[0].environment.deployment ? requestData.containers[0].environment.deployment : "";
+							requestData.containers[0].environment.deployment = newDate;
+							//console.log(requestData.containers[0].environment);
 						}else if(Command.deploy2){
-							originalDate = body.containers[0].env.deployment ? body.containers[0].env.deployment : "";
-							body.containers[0].env.deployment = newDate;
-													//console.log(body.containers[0].env);
+							originalDate = requestData.containers[0].env.deployment ? requestData.containers[0].env.deployment : "";
+							requestData.containers[0].env.deployment = newDate;
+							//console.log(requestData.containers[0].env);
 						}
 		
 						//Make Put with modified data
 						let responseData = await createRequest({
 							path: path,
 							method: "PUT",
-							json: body
+							json: requestData
 						});
 
 						if(responseData){
