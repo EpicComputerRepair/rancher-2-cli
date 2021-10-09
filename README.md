@@ -1,4 +1,4 @@
-# rancher-2-cli - v0.1.0
+# rancher-2-cli - v0.1.1
 
 Rancher Command Line Client
 
@@ -16,7 +16,9 @@ Options
   --namespace     Kubernetes Namespace                                                          
   --name          Object Name                                                                   
   --deploy        Change deployment enviroment variable on workload to trigger docker image     
-                  pull and redeployment                                                         
+                  pull and redeployment
+  --deploy2	  Change deployment enviroment variable on workload to trigger docker image
+		  pull and redeployment for rancer v2.6+                                                         
   --debug         Debug Program                                                                 
   --help          Print this usage guide                                                        
 
