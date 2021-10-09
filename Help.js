@@ -51,6 +51,10 @@ const sections = [
 		    description: 'Change deployment enviroment variable on workload to trigger docker image pull and redeployment'
 	    },
 	    {
+		    name: 'deploy2',
+		   description: 'Change deployment enviroment variable on workload to trigger docker image pull and redeployment v2.6+'
+	    },
+	    {
 		    name: 'debug',
 		    description: 'Debug Program'
 	    },

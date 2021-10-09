@@ -102,17 +102,30 @@ if(Command.project){
 			},(error,response,body) => {
                                 console.log('['+colors.green("Resource")+']['+colors.gray(Command.namespace)+'] '+Command.name);
 				if(!error){
-                			if(body && body.containers && body.containers.length > 0 && Command.deploy){
+                			if(body && body.containers && body.containers.length > 0 && (Command.deploy || Command.deploy2)){
 						
-						if(!body.containers[0].environment){
-							body.containers[0].environment = {};
+						if(Command.deploy){
+							if(!body.containers[0].environment){
+								body.containers[0].environment = {};
+							}
+						}else if(Command.deploy2){
+							if(!body.containers[0].env){
+								body.containers[0].env = {};
+							}
 						}
 						
 						//Modify Enviroment Var
                 				let newDate = new Date().toString();
-                				let originalDate =  body.containers[0].environment.deployment ? body.containers[0].environment.deployment : "";
-						body.containers[0].environment.deployment = newDate;
-                				//console.log(body.containers[0].environment);
+                				let originalDate = "";
+						if(Command.deploy){
+							originalDate = body.containers[0].environment.deployment ? body.containers[0].environment.deployment : "";
+							body.containers[0].environment.deployment = newDate;
+                                                	//console.log(body.containers[0].environment);
+						}else if(Command.deploy2){
+							originalDate = body.containers[0].env.deployment ? body.containers[0].env.deployment : "";
+							body.containers[0].env.deployment = newDate;
+                                                	//console.log(body.containers[0].env);
+						}
                 
                 				//Make Put with modified data
                 				createRequest({

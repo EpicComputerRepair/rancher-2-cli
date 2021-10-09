@@ -1,6 +1,6 @@
 {
   "name": "rancher-2-cli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Rancher 2.x API Client",
   "main": "index.js",
   "scripts": {

@@ -15,7 +15,8 @@ const optionDefinitions = [
   { name: 'name', type: String}, 
   { name: 'help', alias: 'h', type: Boolean},
   { name: 'debug', type: Boolean},
-  { name: 'deploy', type: Boolean}
+  { name: 'deploy', type: Boolean},
+  { name: 'deploy2', type: Boolean},
 ];
 
 const OPTIONS = commandLineArgs(optionDefinitions);
